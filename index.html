@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .container-jogo {
+            background-color: black;
+            color: white;
+            width: 1200px;
+            margin:auto;
+            border-radius: 60px;
+        }
+        .jogo-nome  {
+            text-align: center;
+        }
+        .player-options{
+            margin-left:300px;
+        }
+        .player-options img, .enemy-options img {
+            border-radius: 50%;
+            width: 40%;
+            opacity: 0.3;
+            cursor: pointer;
+
+        }
+        .align {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-jogo">
+        <div class="jogo-nome">
+            <h1>Rock Paper Scissor @postal5555</h1>
+            <h2 class="vencedor"></h2><h2 class="score">Placar : 0</h2>
+        </div>  
+        <div class="vencedor-container">
+           
+        </div>      
+        <div class="align">
+            <div class="player-options">
+                <div><h2>Jogador</h2></div>
+                <div> <img opt="rock" src="pedra.jpg"> </div>
+                <div> <img opt="paper" src="papel.jpg"> </div>
+                <div> <img opt="scissor" src="tesoura.jpg"> </div>
+            </div>
+            <div class="enemy-options">
+                <div><h2>IA - Opponent</h2></div>
+                <div> <img opt="rock" src="pedra.jpg"> </div>
+                <div> <img opt="paper" src="papel.jpg"> </div>
+                <div> <img opt="scissor" src="tesoura.jpg"> </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var elementos = document.querySelectorAll('.player-options div > img');
+        var playerOpt = "";
+        var inimigoOpt = "";
+        var pontos = 0;
+
+
+        function validarVitoria(){
+
+            
+            let score = document.querySelector('.score');
+
+            let vencedor = document.querySelector('.vencedor');
+
+            //validar papel
+            if(playerOpt == 'paper'){
+                if(inimigoOpt == 'paper'){
+                    //empate
+                    vencedor.innerHTML = 'Empate';
+                }else if(inimigoOpt == 'scissor'){
+                    //Inimigo ganhou
+                    vencedor.innerHTML = 'Perdeu';
+                    pontos--;
+                    score.innerHTML = "Placar: " + pontos;
+                }else if(inimigoOpt == 'rock'){
+                    //Player ganhou
+                    vencedor.innerHTML = 'Ganhou';
+                    pontos++;
+                    score.innerHTML = "Placar: "+pontos;
+                }
+            }
+
+
+
+        }
+
+        function resetInimigo(){
+            const enemyOptions = document.querySelectorAll('.enemy-options div > img');
+            for (var i=0; i< enemyOptions.length; i++) {
+                enemyOptions[i].style.opacity = 0.3;
+            }
+        }
+
+        function inimigoJogar(){
+            let rand = Math.floor(Math.random()*3);
+            
+
+            const enemyOptions = document.querySelectorAll('.enemy-options div > img');
+            resetInimigo();
+            for (var i=0; i< enemyOptions.length; i++){
+                if (i == rand) {
+                    enemyOptions[i].style.opacity = 1;
+                    inimigoOpt = enemyOptions[i].getAttribute('opt');
+                }
+            }
+            //alert(playerOpt);
+            //alert(inimigoOpt);
+            validarVitoria();
+        }
+        
+        
+
+        function resetOpacityPlayer() {
+            for (var i=0; i<elementos.length; i++){
+                elementos[i].style.opacity = 0.3;
+            }
+
+        }
+      
+        for (var i=0; i<elementos.length; i++){
+                elementos[i].addEventListener('click', function(t){
+                    resetOpacityPlayer();
+                    t.target.style.opacity = 1;
+                    playerOpt = t.target.getAttribute('opt');
+                    inimigoJogar();
+                });
+            }
+
+
+
+        /*elementos.forEach(addEventListener('click', function(t){
+            resetOpacityPlayer();
+            t.target.style.opacity = 1;
+        }))*/
+
+    </script>
+    
+</body>
+</html>
